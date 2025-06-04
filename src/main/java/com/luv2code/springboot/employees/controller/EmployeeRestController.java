@@ -1,6 +1,5 @@
 package com.luv2code.springboot.employees.controller;
 
-import com.luv2code.springboot.employees.dao.EmployeeDAO;
 import com.luv2code.springboot.employees.entity.Employee;
 import com.luv2code.springboot.employees.request.EmployeeRequest;
 import com.luv2code.springboot.employees.service.EmployeeService;
@@ -8,12 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -37,7 +36,7 @@ public class EmployeeRestController {
     @Operation(summary = "Get employee by id", description = "Retrieve employee by id from database")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Employee getEmployee(@PathVariable @Min(value = 1) long id) {
+    public Optional<Employee> getEmployee(@PathVariable @Min(value = 1) long id) {
         return employeeService.findById(id);
     }
 

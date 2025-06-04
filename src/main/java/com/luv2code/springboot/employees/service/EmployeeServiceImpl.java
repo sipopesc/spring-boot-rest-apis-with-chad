@@ -1,44 +1,45 @@
 package com.luv2code.springboot.employees.service;
 
-import com.luv2code.springboot.employees.dao.EmployeeDAO;
+import com.luv2code.springboot.employees.dao.EmployeeRepository;
 import com.luv2code.springboot.employees.entity.Employee;
 import com.luv2code.springboot.employees.request.EmployeeRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeDAO employeeDAO;
+    private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
-    public Employee findById(long id) {
-        return employeeDAO.findById(id);
+    public Optional<Employee> findById(long id) {
+        return employeeRepository.findById(id);
     }
 
     @Transactional
     @Override
     public Employee save(EmployeeRequest employeeRequest) {
         Employee employee = convertToEmployee(0, employeeRequest);
-        return employeeDAO.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Transactional
     @Override
     public Employee update(long id, EmployeeRequest employeeRequest) {
         Employee employee = convertToEmployee(id, employeeRequest);
-        return employeeDAO.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Override
@@ -49,6 +50,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public void deleteById(long id) {
-        employeeDAO.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 }
